@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "framework": "django-drf",
+  "target_root": "apps/backend",
+  "required_paths": [
+    "manage.py",
+    "pyproject.toml",
+    ".env.example",
+    "Dockerfile",
+    "README.md",
+    "core/settings/base.py",
+    "core/settings/local.py",
+    "core/settings/test.py",
+    "core/settings/production.py",
+    "core/urls.py",
+    "core/asgi.py",
+    "core/wsgi.py",
+    "common/health.py",
+    "static",
+    "media",
+    "scripts/validate_project.py"
+  ],
+  "domain_path_pattern": "<domain>",
+  "required_domain_paths": [
+    "models.py",
+    "services.py",
+    "selectors.py",
+    "serializers.py",
+    "views.py",
+    "urls.py",
+    "permissions.py",
+    "admin.py",
+    "migrations/__init__.py",
+    "tests/__init__.py"
+  ],
+  "forbidden_patterns": [
+    "business logic in core/settings/**",
+    "substantial business logic in views.py",
+    "destructive migration without approval",
+    "real secrets in environment files"
+  ]
+}

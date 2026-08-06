@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "hooks": {
+    "pre_task": ["validate_task_contract", "assert_safe_branch", "acquire_target_path_lease"],
+    "pre_write": ["confirm_target_is_monorepo", "reject_framework_pack_write"],
+    "post_write": ["check_changed_paths", "validate_generated_structure", "run_focused_backend_checks", "write_evidence"],
+    "pre_verify": ["release_implementer_lease", "require_independent_agent"],
+    "pre_commit": ["require_verified_state", "scan_staged_secrets", "reject_unrelated_files"]
+  }
+}

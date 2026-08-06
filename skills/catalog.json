@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "framework": "django-drf",
+  "skills": [
+    {
+      "name": "inspect-django-target",
+      "inputs": ["PRD", "target repository inventory"],
+      "outputs": ["framework detection", "domain map", "compatibility risks"],
+      "required_checks": ["read-only discovery", "existing-work preservation"]
+    },
+    {
+      "name": "create-django-monorepo-backend",
+      "inputs": ["validated task contract", "approved architecture", "rules/project-structure.json"],
+      "outputs": ["apps/backend production structure"],
+      "required_checks": ["path lease", "settings split", "custom user decision", "health check"]
+    },
+    {
+      "name": "implement-drf-vertical-slice",
+      "inputs": ["requirement IDs", "OpenAPI boundary", "existing backend"],
+      "outputs": ["model-to-endpoint slice", "migration", "tests", "evidence"],
+      "required_checks": ["service boundary", "API envelope", "migration safety", "focused tests"]
+    },
+    {
+      "name": "verify-django-delivery",
+      "inputs": ["changed files", "task contract", "test manifest"],
+      "outputs": ["independent verification decision"],
+      "required_checks": ["format", "lint", "strict types", "system check", "migration drift", "API tests", "security"]
+    }
+  ]
+}
