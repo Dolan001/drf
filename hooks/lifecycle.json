@@ -1,5 +1,12 @@
 {
   "version": "1.0.0",
+  "instructions": {
+    "pre_task": "hooks/pre-task.md",
+    "pre_write": "hooks/pre-write.md",
+    "post_write": "hooks/post-write.md",
+    "pre_verify": "hooks/pre-verify.md",
+    "pre_commit": "hooks/pre-commit.md"
+  },
   "hooks": {
     "pre_task": ["validate_task_contract", "assert_safe_branch", "acquire_target_path_lease"],
     "pre_write": ["confirm_target_is_monorepo", "reject_framework_pack_write"],
