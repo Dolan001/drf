@@ -20,6 +20,7 @@
     "media",
     "scripts/validate_project.py"
   ],
+  "required_directories": ["static", "media"],
   "domain_path_pattern": "<domain>",
   "required_domain_paths": [
     "models.py",
