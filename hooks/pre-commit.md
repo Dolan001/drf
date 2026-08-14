@@ -1,4 +1,4 @@
 # Pre-commit
 
 Require verified state, migration evidence, staged-secret scanning, requirement IDs,
-and no unrelated files.
+database-verification evidence for schema/query changes, and no unrelated files.

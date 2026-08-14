@@ -13,3 +13,7 @@ results. Do not edit source or mark verified with missing evidence.
 Use the independent checklist in
 `../implement-drf-vertical-slice/references/production-delivery.md`; verify observable
 behavior rather than trusting implementation evidence.
+For database or API work, also apply
+`../implement-drf-vertical-slice/references/database-api-architecture.md` and require
+truthful `.ai/evidence/database-verification.json` evidence from a disposable PostgreSQL
+database.

@@ -5,7 +5,7 @@ Django REST Framework backend.
 
 ## Foundations
 
-- Pin compatible Python, Django, DRF, database-driver, schema, test, and lint versions;
+- Pin compatible Python, Django, DRF, PostgreSQL driver, schema, test, and lint versions;
   commit the resolved lock. Never invent versions from memory when the target already
   constrains them.
 - Split settings by environment, validate required environment variables at startup,
@@ -14,6 +14,8 @@ Django REST Framework backend.
   exposing sequential database IDs would leak information.
 - Provide liveness and dependency-aware readiness endpoints, structured logs, request
   correlation, trusted proxy configuration, and a uniform error envelope.
+- Use PostgreSQL in every generated environment that validates persistence behavior;
+  do not use SQLite as a transparent substitute for production database tests.
 
 ## Domain and data boundaries
 
@@ -31,7 +33,7 @@ Django REST Framework backend.
 
 ## API and security boundaries
 
-- Serializers validate the transport boundary; services still enforce business
+- Serializers validate the transport boundary and remain side-effect free; services enforce business
   invariants. Never rely on client-hidden fields for authorization.
 - Permissions are deny-by-default and tested for anonymous, wrong-role, wrong-tenant,
   and object-ownership cases. Filter querysets by tenant before object lookup.
@@ -41,6 +43,8 @@ Django REST Framework backend.
   password reset, and account enumeration as explicit architecture decisions.
 - Generate OpenAPI from the running backend, validate it, and detect drift against the
   contract consumed by the frontend.
+- Version URLs beneath `/api/v1/`, use explicit router basenames and stable operation IDs,
+  and contract-test reverse/resolve behavior.
 
 ## Verification
 

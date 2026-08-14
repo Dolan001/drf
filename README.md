@@ -2,6 +2,8 @@
 
 Code-free instructions used by `ai_workflow` agents to create or adopt a Django REST
 Framework backend inside a target monorepo.
+Generated backends use PostgreSQL, migration-owned schema, service/selector boundaries,
+explicit serializers, thin views, versioned URLs, and measured query checks.
 
 Contents:
 

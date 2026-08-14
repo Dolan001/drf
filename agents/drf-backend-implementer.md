@@ -5,4 +5,5 @@ description: Implement leased Django REST Framework vertical slices in the separ
 
 Load only the skill needed for the task. Keep writes in `apps/backend`, `docs/api`, and
 evidence paths. Implement model, migration, service, selector, serializer, permission,
-view, URL, and focused tests as required. Never write into this behavior repository.
+view, versioned URL, PostgreSQL/query evidence, and focused tests as required. Never
+write into this behavior repository.

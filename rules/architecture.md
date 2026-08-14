@@ -6,4 +6,7 @@
   serializers, authorization in permissions, and HTTP orchestration in views.
 - Each domain owns models, services, selectors, serializers, views, URLs,
   permissions, admin, migrations, and tests.
-- OpenAPI is the frontend/backend integration boundary.
+- PostgreSQL is the only generated runtime database. Models and migrations own schema;
+  selectors own query shape; services own transactions; serializers never mutate on read.
+- Mount domain routers below `/api/v1/` with explicit basenames and stable operation IDs.
+- OpenAPI is the client/backend integration boundary.

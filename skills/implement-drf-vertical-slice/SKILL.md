@@ -13,3 +13,5 @@ migration checks, and tests; stop for independent verification.
 
 Read `references/production-delivery.md` for the boundary, security, transaction,
 API-error, migration, and test decisions that apply to the slice.
+Read `references/database-api-architecture.md` whenever the slice creates or changes a
+model, migration, selector, serializer, view, filter, permission, or URL.

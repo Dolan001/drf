@@ -9,6 +9,9 @@ the recognizable `core` configuration package, root-level domain apps, root
 `manage.py`, project-level static/media directories, and domain-owned models,
 services, selectors, serializers, views, URLs, permissions, admin, migrations, and
 tests. Follow the task contract, path leases, and independent-verification rules.
+Generated persistence uses PostgreSQL only. Create tables through reviewed Django
+migrations, keep writes in services and optimized reads in selectors, and require
+structured database evidence before verification.
 
 Load agent and skill Markdown only after Django DRF is selected. JSON catalogs route
 the workflow but do not replace behavioral instructions. Prefer cached discovery,
