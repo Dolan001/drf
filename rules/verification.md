@@ -10,3 +10,5 @@ plans or query-count budgets for affected hot paths.
 The structure gate must also report no source-rule violations and no incomplete conditional
 capability groups. For affected features require race-safe conflicts, authenticated ownership,
 response-field filtering, and durable external-effect failure tests.
+When background tasks are active, Redis broker, Celery worker startup, enqueue/consume, retry,
+idempotency, duplicate-delivery, outbox, terminal-failure, and optional schedule evidence are required.

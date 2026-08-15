@@ -12,6 +12,7 @@ apps/backend/
 ├── .gitignore
 ├── .dockerignore
 ├── Dockerfile
+├── compose.yaml                    # conditional: Redis + Celery worker
 ├── README.md
 ├── core/
 │   ├── __init__.py
@@ -21,13 +22,15 @@ apps/backend/
 │   ├── api.py
 │   ├── exceptions.py
 │   ├── logging.py
+│   ├── celery.py                   # conditional: durable background work
 │   └── settings/
 │       ├── __init__.py
 │       ├── base.py
 │       ├── local.py
 │       ├── test.py
 │       ├── production.py
-│       └── database.py
+│       ├── database.py
+│       └── tasks.py                # conditional: broker/queue policy
 ├── common/
 │   ├── __init__.py
 │   ├── models.py
@@ -40,18 +43,21 @@ apps/backend/
 │   ├── apps.py
 │   ├── models.py
 │   ├── services.py
+│   ├── tasks.py                    # conditional: scalar-ID task entrypoints
 │   ├── migrations/
 │   │   └── __init__.py
 │   └── tests/
 │       ├── __init__.py
 │       ├── test_models.py
-│       └── test_services.py
+│       ├── test_services.py
+│       └── test_tasks.py
 └── scripts/
     ├── validate_project.py
     ├── check_database.py
     ├── check_migration_plan.py
     ├── check_query_plans.py
-    └── check_openapi_drift.py
+    ├── check_openapi_drift.py
+    └── check_workers.py            # conditional
 ```
 
 Ownership:
@@ -81,6 +87,10 @@ Required and conditional paths:
 - Adding `selectors.py` activates the optimized-read group and requires selector/query tests.
 - Adding serializers, views, or URLs activates the REST API group and requires explicit input/
   output serializers, views, URLs, permissions, and serializer/API tests.
+- Adding any domain `tasks.py` activates the background-task group. It requires Celery with the
+  Redis extra, a Redis broker URL, Django task autodiscovery, a worker health check, Redis and
+  worker services in `compose.yaml`, and task tests. Add Celery Beat only for requirement-backed
+  schedules; add a result backend only when application behavior consumes task results.
 - Add `filters.py`, `admin.py`, `common/testing.py`, factories, static assets, or media handling
   only when requirements need them. Production user uploads belong in a requirement-backed
   storage adapter, not a repository media directory.
@@ -94,5 +104,7 @@ Generation order:
 4. Create only domains and conditional capability groups required by the feature plan.
 5. Implement one vertical slice from constrained/indexed model through service,
    optimized selector, explicit serializers, thin view, named URL, and API tests.
-6. Generate and review migrations; prove an empty PostgreSQL database reaches head.
-7. Add query budgets/plans, database evidence, Docker, and CI only in the target.
+6. For durable deferred effects, persist an outbox/job in the business transaction, then add
+   idempotent Celery delivery, bounded retries, failure records, and worker evidence.
+7. Generate and review migrations; prove an empty PostgreSQL database reaches head.
+8. Add query budgets/plans, database evidence, Docker, and CI only in the target.

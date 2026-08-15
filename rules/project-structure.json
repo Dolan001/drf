@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "framework": "django-drf",
   "target_root": "apps/backend",
   "required_paths": [
@@ -46,6 +46,63 @@
       ]
     }
   ],
+  "conditional_path_groups": [
+    {
+      "name": "background-tasks",
+      "trigger_globs": ["core/celery.py", "*/tasks.py"],
+      "required_paths": [
+        "core/celery.py",
+        "core/settings/tasks.py",
+        "scripts/check_workers.py",
+        "compose.yaml"
+      ],
+      "required_directories": [],
+      "required_source_patterns": [
+        {
+          "id": "celery-redis-dependency",
+          "globs": ["pyproject.toml"],
+          "pattern": "celery\\[redis\\]",
+          "ignore_case": true,
+          "message": "Background work requires the Celery Redis dependency extra in pyproject.toml."
+        },
+        {
+          "id": "redis-broker-environment",
+          "globs": [".env.example"],
+          "pattern": "^CELERY_BROKER_URL=redis://",
+          "ignore_case": false,
+          "message": "The example environment must declare a Redis Celery broker URL."
+        },
+        {
+          "id": "celery-application",
+          "globs": ["core/celery.py"],
+          "pattern": "Celery\\s*\\(",
+          "ignore_case": false,
+          "message": "core/celery.py must create the Celery application."
+        },
+        {
+          "id": "django-task-discovery",
+          "globs": ["core/celery.py"],
+          "pattern": "autodiscover_tasks\\s*\\(",
+          "ignore_case": false,
+          "message": "The Django Celery application must autodiscover domain tasks."
+        },
+        {
+          "id": "redis-compose-service",
+          "globs": ["compose.yaml", "compose.yml"],
+          "pattern": "^\\s*redis:\\s*(?:#.*)?$",
+          "ignore_case": false,
+          "message": "The backend compose file must define a Redis service."
+        },
+        {
+          "id": "worker-compose-service",
+          "globs": ["compose.yaml", "compose.yml"],
+          "pattern": "^\\s*worker:\\s*(?:#.*)?$",
+          "ignore_case": false,
+          "message": "The backend compose file must define a Celery worker service."
+        }
+      ]
+    }
+  ],
   "domain_path_pattern": "<domain>",
   "required_domain_paths": [
     "__init__.py",
@@ -80,6 +137,12 @@
         "tests/test_api.py"
       ],
       "required_directories": ["serializers"]
+    },
+    {
+      "name": "background-tasks",
+      "trigger_paths": ["tasks.py"],
+      "required_paths": ["tasks.py", "tests/test_tasks.py"],
+      "required_directories": []
     }
   ],
   "minimum_domain_instances": 1,

@@ -14,7 +14,7 @@
       "agent": "drf-backend-implementer",
       "purpose": "Implement dependency-safe backend vertical slices inside the target monorepo.",
       "writes_application_code": true,
-      "allowed_target_paths": ["apps/backend/**", "docs/api/**", ".ai/evidence/**"],
+      "allowed_target_paths": ["apps/backend/**", "docs/api/**", ".ai/test-commands.json", ".ai/evidence/**"],
       "maximum_retries_per_failure": 2
     },
     {

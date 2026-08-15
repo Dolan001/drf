@@ -58,6 +58,14 @@ Django REST Framework backend.
 - Use a transactional outbox/job row for effects that must survive restart. Deliver after commit
   with retries, idempotency, observability, and dead-letter handling; reserve in-process callbacks
   for disposable work.
+- Use Celery with Redis as the default durable worker. Do not add the obsolete `django-celery`
+  integration package: configure Celery directly for Django and autodiscover domain tasks. Use
+  `django-celery-beat` only when schedules must be database-managed. Store task results only when
+  product behavior reads them.
+- Task payloads contain versioned scalar IDs, never ORM instances, request objects, credentials, or
+  large files. A task opens fresh database state, checks an idempotency key, applies bounded
+  exponential retry with jitter, records terminal failures, and has explicit soft/hard time limits
+  and queue routing. Worker readiness must prove broker connection and enqueue-to-consume behavior.
 - Define compensation for database/object-store split operations. Do not commit a reference to a
   missing object or delete the old object before its replacement is durable.
 
@@ -72,5 +80,7 @@ Django REST Framework backend.
   throttled, dependency failure, and retry/idempotency behavior as relevant.
 - Exercise ownership, concurrent uniqueness, upload validation, outbox retry/idempotency, and
   failure between database commit and every required external effect when those capabilities exist.
+- When background work is active, also prove worker startup, Redis connectivity, duplicate delivery,
+  retry exhaustion, terminal failure visibility, graceful shutdown, and scheduled dispatch when used.
 - Evidence records exact argv, cwd, exit code, tool version, affected requirement IDs,
   and artifact paths. A skipped or unavailable required check is not a pass.
