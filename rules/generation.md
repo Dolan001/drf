@@ -11,3 +11,4 @@
   lifetime/health checks, timeouts, and a dependency-aware readiness check.
 - Derive constraints and indexes from invariants and measured query shapes; do not add
   speculative indexes or perform database writes during serialization.
+- Pass the executable source rules and complete every activated domain capability group.

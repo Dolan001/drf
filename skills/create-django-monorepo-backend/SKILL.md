@@ -5,12 +5,13 @@ description: Create the Django DRF backend structure in a new target monorepo af
 
 # Create Django backend
 
-Generate only paths required by `rules/project-structure.json`. Resolve supported
+Generate core paths, one declared dependency-lock alternative, and only requirement-triggered
+domain capability groups from `rules/project-structure.json`. Resolve supported
 versions, lock dependencies, split settings, validate environment variables, configure
 PostgreSQL and connection health, decide the user model, configure logging/errors/OpenAPI,
 and create only required domain apps. Create tables only through reviewed committed
 migrations. Add Docker and CI inside the target only. Run structure, connection, migration,
-and Django checks before feature implementation.
+source-policy, and Django checks before feature implementation.
 
 Read `../../rules/project-structure.md` for the generated layout. Before writing
 configuration, authentication, persistence, or deployment boundaries, read

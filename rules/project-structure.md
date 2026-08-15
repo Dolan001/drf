@@ -7,8 +7,7 @@ derived from reconciled requirements; `user` below is illustrative, not mandator
 apps/backend/
 ├── manage.py
 ├── pyproject.toml
-├── requirements.lock
-├── requirements-dev.lock
+├── <resolved dependency lock>
 ├── .env.example
 ├── .gitignore
 ├── .dockerignore
@@ -22,7 +21,6 @@ apps/backend/
 │   ├── api.py
 │   ├── exceptions.py
 │   ├── logging.py
-│   ├── pagination.py
 │   └── settings/
 │       ├── __init__.py
 │       ├── base.py
@@ -32,10 +30,8 @@ apps/backend/
 │       └── database.py
 ├── common/
 │   ├── __init__.py
-│   ├── health.py
 │   ├── models.py
 │   ├── pagination.py
-│   ├── testing.py
 │   └── database/
 │       ├── __init__.py
 │       └── health.py
@@ -44,29 +40,12 @@ apps/backend/
 │   ├── apps.py
 │   ├── models.py
 │   ├── services.py
-│   ├── selectors.py
-│   ├── serializers/
-│   │   ├── __init__.py
-│   │   ├── input.py
-│   │   └── output.py
-│   ├── views.py
-│   ├── urls.py
-│   ├── filters.py
-│   ├── permissions.py
-│   ├── admin.py
 │   ├── migrations/
 │   │   └── __init__.py
 │   └── tests/
 │       ├── __init__.py
-│       ├── factories.py
 │       ├── test_models.py
-│       ├── test_services.py
-│       ├── test_selectors.py
-│       ├── test_serializers.py
-│       ├── test_api.py
-│       └── test_queries.py
-├── static/
-├── media/
+│       └── test_services.py
 └── scripts/
     ├── validate_project.py
     ├── check_database.py
@@ -87,10 +66,24 @@ Ownership:
 - migrations are committed and additive by default.
 - PostgreSQL is mandatory; `core/settings/database.py` owns validated connection and
   timeout policy while `common/database/health.py` owns bounded readiness checks.
-- serializers are explicit side-effect-free transport boundaries; input serializers
-  call services and output serializers consume selector-shaped querysets.
+- serializers are explicit side-effect-free transport boundaries. Input serializers return
+  validated data; views/ViewSets pass that data and authenticated actor context to services.
+  Output serializers consume selector-shaped objects and never initiate writes.
 - domain routers have explicit basenames and mount under the versioned root `/api/v1/`.
 - OpenAPI is generated from the backend and checked against the canonical contract.
+
+Required and conditional paths:
+
+- Resolve exactly one lock strategy: `uv.lock`, `poetry.lock`, `pdm.lock`, or the pair
+  `requirements.lock` plus `requirements-dev.lock`.
+- Every domain requires only its app configuration, models, services, migrations, and focused
+  model/service tests.
+- Adding `selectors.py` activates the optimized-read group and requires selector/query tests.
+- Adding serializers, views, or URLs activates the REST API group and requires explicit input/
+  output serializers, views, URLs, permissions, and serializer/API tests.
+- Add `filters.py`, `admin.py`, `common/testing.py`, factories, static assets, or media handling
+  only when requirements need them. Production user uploads belong in a requirement-backed
+  storage adapter, not a repository media directory.
 
 Generation order:
 
@@ -98,7 +91,7 @@ Generation order:
 2. Create configuration, PostgreSQL environment validation, connection/readiness,
    logging, and dependency locks.
 3. Decide the custom user model before the first migration.
-4. Create only domains required by the feature plan.
+4. Create only domains and conditional capability groups required by the feature plan.
 5. Implement one vertical slice from constrained/indexed model through service,
    optimized selector, explicit serializers, thin view, named URL, and API tests.
 6. Generate and review migrations; prove an empty PostgreSQL database reaches head.

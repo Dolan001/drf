@@ -4,6 +4,8 @@ Code-free instructions used by `ai_workflow` agents to create or adopt a Django 
 Framework backend inside a target monorepo.
 Generated backends use PostgreSQL, migration-owned schema, service/selector boundaries,
 explicit serializers, thin views, versioned URLs, and measured query checks.
+The executable structure contract supports dependency-lock alternatives, requirement-triggered
+domain capabilities, and source-policy checks without storing application templates.
 
 Contents:
 

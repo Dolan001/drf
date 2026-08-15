@@ -1,6 +1,6 @@
 # Verify
 
-Run project-owned formatting, Ruff, strict mypy, Django system/deploy checks,
+Run project-owned formatting, Ruff, strict mypy, structure/source-policy, Django system/deploy checks,
 PostgreSQL connection/readiness checks, empty-database migrations, migration drift and
 plan checks, schema/index/constraint inspection, query budgets/plans, URL/OpenAPI checks,
 unit/API/contract tests, dependency audit, secret scan, and configured container health

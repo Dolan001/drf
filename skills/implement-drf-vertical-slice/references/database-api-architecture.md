@@ -30,6 +30,12 @@ filter, permission, or URL change.
   and covering columns only when the workload supports them. Account for write overhead.
 - Record table, constraint, and index names. Keep identifiers stable and within PostgreSQL
   limits so migrations and diagnostics remain predictable.
+- Normalize case-insensitive usernames, emails, slugs, and natural keys deliberately. Pair
+  canonical application input with a PostgreSQL functional unique constraint or another explicit
+  representation. Preflight checks improve errors but never replace catching `IntegrityError`,
+  mapping the named constraint to a stable conflict code, and leaving the transaction usable.
+- Prefer database-generated creation timestamps and deliberate update/version columns when
+  multiple writers exist. Keep Django and database defaults consistent.
 
 ## Migrations and table creation
 
@@ -66,7 +72,7 @@ filter, permission, or URL change.
 
 - Separate write/input serializers from read/output serializers when field policy differs.
   Declare fields explicitly for public APIs; avoid `fields = "__all__"`. Validate shape and
-  cross-field input, then call a service for business writes.
+  cross-field input and return validated data. The view/ViewSet calls a service for business writes.
 - Serialization is side-effect free. Never update rows in `SerializerMethodField`,
   `to_representation`, property access, list, or retrieve operations. Precompute or annotate
   derived state, or update it through a scheduled/service command.
@@ -87,3 +93,5 @@ filter, permission, or URL change.
   URL reverse/resolve names, OpenAPI operation IDs, and success plus negative API behavior.
 - Write `.ai/evidence/database-verification.json` without secrets. It must truthfully record
   connection, migration, schema, and query verification required by the workflow schema.
+- Keep a clean-database migration lane separate from faster transaction-isolated API tests.
+  Tests using disabled migrations, SQLite, or schema shortcuts never count as migration evidence.

@@ -7,3 +7,6 @@ must be reported as blocked rather than passed when the host runtime is unavaila
 Database evidence must prove PostgreSQL connectivity, empty-database migration, current
 migration head, second-run idempotence, expected tables/constraints/indexes, and measured
 plans or query-count budgets for affected hot paths.
+The structure gate must also report no source-rule violations and no incomplete conditional
+capability groups. For affected features require race-safe conflicts, authenticated ownership,
+response-field filtering, and durable external-effect failure tests.

@@ -30,6 +30,8 @@ Django REST Framework backend.
   forward plan in CI.
 - Prevent N+1 queries deliberately and add a query-count or representative performance
   check for list endpoints with nested relationships.
+- Map race-safe database constraint failures to stable domain conflicts. A uniqueness lookup
+  alone is never sufficient under concurrency.
 
 ## API and security boundaries
 
@@ -45,6 +47,19 @@ Django REST Framework backend.
   contract consumed by the frontend.
 - Version URLs beneath `/api/v1/`, use explicit router basenames and stable operation IDs,
   and contract-test reverse/resolve behavior.
+- Derive actor, owner, tenant, and role from authenticated request context. Never trust a client
+  supplied owner or tenant field for authorization or ownership assignment.
+
+## External effects and files
+
+- Place email, object storage, webhooks, queues, and image processing behind service adapters.
+  Stream bounded uploads, inspect decoded content, create server-side object keys, and enforce
+  content and dimension policy rather than trusting names or MIME headers.
+- Use a transactional outbox/job row for effects that must survive restart. Deliver after commit
+  with retries, idempotency, observability, and dead-letter handling; reserve in-process callbacks
+  for disposable work.
+- Define compensation for database/object-store split operations. Do not commit a reference to a
+  missing object or delete the old object before its replacement is durable.
 
 ## Verification
 
@@ -55,5 +70,7 @@ Django REST Framework backend.
   query/performance checks.
 - Test success, validation failure, conflict, not-found, unauthorized, forbidden,
   throttled, dependency failure, and retry/idempotency behavior as relevant.
+- Exercise ownership, concurrent uniqueness, upload validation, outbox retry/idempotency, and
+  failure between database commit and every required external effect when those capabilities exist.
 - Evidence records exact argv, cwd, exit code, tool version, affected requirement IDs,
   and artifact paths. A skipped or unavailable required check is not a pass.
