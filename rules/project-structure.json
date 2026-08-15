@@ -87,6 +87,13 @@
           "message": "The Django Celery application must autodiscover domain tasks."
         },
         {
+          "id": "django-broker-setting",
+          "globs": ["core/settings/tasks.py"],
+          "pattern": "CELERY_BROKER_URL",
+          "ignore_case": false,
+          "message": "Django task settings must bind the validated Celery broker URL."
+        },
+        {
           "id": "redis-compose-service",
           "globs": ["compose.yaml", "compose.yml"],
           "pattern": "^\\s*redis:\\s*(?:#.*)?$",
@@ -94,11 +101,25 @@
           "message": "The backend compose file must define a Redis service."
         },
         {
+          "id": "redis-compose-image",
+          "globs": ["compose.yaml", "compose.yml"],
+          "pattern": "^\\s*image:\\s*redis(?::|@)",
+          "ignore_case": true,
+          "message": "The Redis compose service must use an explicitly versioned Redis image."
+        },
+        {
           "id": "worker-compose-service",
           "globs": ["compose.yaml", "compose.yml"],
           "pattern": "^\\s*worker:\\s*(?:#.*)?$",
           "ignore_case": false,
           "message": "The backend compose file must define a Celery worker service."
+        },
+        {
+          "id": "worker-compose-command",
+          "globs": ["compose.yaml", "compose.yml"],
+          "pattern": "celery[^\\n]*\\bworker\\b",
+          "ignore_case": true,
+          "message": "The worker compose service must start a Celery worker process."
         }
       ]
     }
@@ -141,7 +162,7 @@
     {
       "name": "background-tasks",
       "trigger_paths": ["tasks.py"],
-      "required_paths": ["tasks.py", "tests/test_tasks.py"],
+      "required_paths": ["tasks.py", "outbox.py", "tests/test_tasks.py", "tests/test_outbox.py"],
       "required_directories": []
     }
   ],

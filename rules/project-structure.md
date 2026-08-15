@@ -44,13 +44,15 @@ apps/backend/
 │   ├── models.py
 │   ├── services.py
 │   ├── tasks.py                    # conditional: scalar-ID task entrypoints
+│   ├── outbox.py                   # conditional: transactional delivery records
 │   ├── migrations/
 │   │   └── __init__.py
 │   └── tests/
 │       ├── __init__.py
 │       ├── test_models.py
 │       ├── test_services.py
-│       └── test_tasks.py
+│       ├── test_tasks.py
+│       └── test_outbox.py
 └── scripts/
     ├── validate_project.py
     ├── check_database.py
