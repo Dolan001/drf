@@ -122,6 +122,20 @@
           "message": "The worker compose service must start a Celery worker process."
         }
       ]
+    },
+    {
+      "name": "realtime",
+      "trigger_globs": ["core/routing.py", "*/consumers.py"],
+      "required_paths": ["core/routing.py", "core/settings/realtime.py", "scripts/check_realtime.py", "compose.yaml"],
+      "required_directories": [],
+      "required_source_patterns": [
+        {"id": "channels-dependency", "globs": ["pyproject.toml"], "pattern": "channels", "ignore_case": true, "message": "Realtime Django requires Channels."},
+        {"id": "channels-redis-dependency", "globs": ["pyproject.toml"], "pattern": "channels-redis", "ignore_case": true, "message": "Multi-process realtime Django requires channels-redis."},
+        {"id": "redis-channel-layer", "globs": ["core/settings/realtime.py"], "pattern": "channels_redis\\.core\\.RedisChannelLayer", "ignore_case": false, "message": "Production realtime must use the Redis channel layer."},
+        {"id": "redis-realtime-environment", "globs": [".env.example"], "pattern": "^REALTIME_REDIS_URL=redis", "ignore_case": false, "message": "The example environment must declare the realtime Redis URL."},
+        {"id": "asgi-websocket-router", "globs": ["core/asgi.py", "core/routing.py"], "pattern": "ProtocolTypeRouter", "ignore_case": false, "message": "Django realtime requires an ASGI protocol router."},
+        {"id": "redis-compose-service-realtime", "globs": ["compose.yaml", "compose.yml"], "pattern": "^\\s*redis:\\s*(?:#.*)?$", "ignore_case": false, "message": "Realtime compose must define Redis."}
+      ]
     }
   ],
   "domain_path_pattern": "<domain>",
@@ -163,6 +177,18 @@
       "name": "background-tasks",
       "trigger_paths": ["tasks.py"],
       "required_paths": ["tasks.py", "outbox.py", "tests/test_tasks.py", "tests/test_outbox.py"],
+      "required_directories": []
+    },
+    {
+      "name": "realtime",
+      "trigger_paths": ["consumers.py", "routing.py"],
+      "required_paths": [
+        "consumers.py",
+        "routing.py",
+        "events.py",
+        "tests/test_realtime.py",
+        "tests/test_realtime_auth.py"
+      ],
       "required_directories": []
     }
   ],

@@ -6,6 +6,8 @@
     {"name": "inspect-django-target", "path": "skills/inspect-django-target/SKILL.md"},
     {"name": "create-django-monorepo-backend", "path": "skills/create-django-monorepo-backend/SKILL.md"},
     {"name": "implement-drf-vertical-slice", "path": "skills/implement-drf-vertical-slice/SKILL.md"},
+    {"name": "implement-drf-realtime", "path": "skills/implement-drf-realtime/SKILL.md"},
+    {"name": "implement-drf-background-work", "path": "skills/implement-drf-background-work/SKILL.md"},
     {"name": "verify-django-delivery", "path": "skills/verify-django-delivery/SKILL.md"}
   ]
 }

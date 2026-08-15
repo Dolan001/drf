@@ -93,6 +93,9 @@ Required and conditional paths:
   Redis extra, a Redis broker URL, Django task autodiscovery, a worker health check, Redis and
   worker services in `compose.yaml`, and task tests. Add Celery Beat only for requirement-backed
   schedules; add a result backend only when application behavior consumes task results.
+- Adding a consumer/router activates realtime. Require Django Channels, `channels-redis`, Redis-only
+  production channel layers, ASGI routing, versioned events, domain auth/fan-out tests, a realtime
+  health check, and live Redis evidence. Never fall back to an in-memory layer in production.
 - Add `filters.py`, `admin.py`, `common/testing.py`, factories, static assets, or media handling
   only when requirements need them. Production user uploads belong in a requirement-backed
   storage adapter, not a repository media directory.
