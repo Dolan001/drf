@@ -16,6 +16,10 @@ Django REST Framework backend.
   correlation, trusted proxy configuration, and a uniform error envelope.
 - Use PostgreSQL in every generated environment that validates persistence behavior;
   do not use SQLite as a transparent substitute for production database tests.
+- Resolve a currently supported minimal Python base, pin the verified release image by
+  digest, use separate build/runtime stages and a non-root runtime user, and keep build
+  tools out of the final image. Rebuild without stale cache and scan the resulting
+  digest; a fixable critical OS or application vulnerability blocks acceptance.
 
 ## Domain and data boundaries
 

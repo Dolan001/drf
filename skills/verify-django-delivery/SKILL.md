@@ -10,6 +10,13 @@ format, lint, types, `manage.py check`, migration drift/plan, affected units and
 OpenAPI drift, authorization negatives, and security checks. Capture commands and
 results. Do not edit source or mark verified with missing evidence.
 
+Reuse a passing shared full-matrix report only when its revision and workspace inputs
+still match. For an individual feature, run only focused changed-slice checks; never
+rerun the complete backend, contract, integration, and browser matrix per feature.
+Use the commands approved in `.ai/test-commands.json`, not ad hoc shell substitutes.
+Verify the built runtime image by immutable digest and fail on fixable critical OS or
+application vulnerabilities.
+
 Use the independent checklist in
 `../implement-drf-vertical-slice/references/production-delivery.md`; verify observable
 behavior rather than trusting implementation evidence.

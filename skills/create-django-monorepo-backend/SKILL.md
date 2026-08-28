@@ -13,6 +13,11 @@ and create only required domain apps. Create tables only through reviewed commit
 migrations. Add Docker and CI inside the target only. Run structure, connection, migration,
 source-policy, and Django checks before feature implementation.
 
+Use a currently supported minimal Python base image, pin the verified runtime image by
+digest, run as a non-root user, and keep build and runtime stages separate. Re-resolve
+the base digest instead of copying a permanent example digest. Build without stale
+cache for release verification and block acceptance on fixable critical image findings.
+
 Read `../../rules/project-structure.md` for the generated layout. Before writing
 configuration, authentication, persistence, or deployment boundaries, read
 `../implement-drf-vertical-slice/references/production-delivery.md`. For PostgreSQL,
