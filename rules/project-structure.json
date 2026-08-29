@@ -143,7 +143,7 @@
   "module_naming": {
     "style": "snake_case",
     "ambiguous_names": ["identity", "work", "operations", "data", "management", "collaboration"],
-    "familiar_fallback_names": ["accounts", "authentication", "users", "notifications", "articles", "blog", "posts", "tasks", "todos", "webhooks", "chat", "files", "attachments", "payments", "orders", "products", "reports"],
+    "familiar_fallback_names": ["accounts", "authentications", "users", "notifications", "articles", "blog", "posts", "tasks", "todos", "webhooks", "chat", "files", "attachments", "payments", "orders", "products", "reports"],
     "responsibility_packages": [
       {"path": "serializers", "trigger_paths": ["serializers"], "minimum_modules": 1, "forbidden_module_names": ["input.py", "output.py", "serializers.py"], "extensions": [".py"]},
       {"path": "views", "trigger_paths": ["views", "urls.py", "serializers"], "minimum_modules": 1, "forbidden_module_names": ["views.py"], "extensions": [".py"]}

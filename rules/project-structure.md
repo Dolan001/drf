@@ -47,11 +47,11 @@ apps/backend/
 │   ├── serializers/                # conditional REST API boundary
 │   │   ├── __init__.py
 │   │   ├── users.py                # illustrative resource name, never input.py/output.py
-│   │   └── authentication.py       # illustrative use-case name
+│   │   └── authentications.py      # illustrative use-case name
 │   ├── views/                      # conditional thin HTTP endpoints
 │   │   ├── __init__.py
 │   │   ├── users.py
-│   │   └── authentication.py
+│   │   └── authentications.py
 │   ├── permissions.py              # conditional REST API authorization
 │   ├── urls.py                     # conditional domain router
 │   ├── tasks.py                    # conditional: scalar-ID task entrypoints
@@ -95,7 +95,7 @@ Naming and growth rules:
 
 - Build a module map from PRD entities, capabilities, journeys, and API nouns before creating
   apps. Preserve a clear PRD term when it is a real bounded context. Otherwise translate the
-  capability to familiar product language such as `accounts`, `authentication`, `users`,
+  capability to familiar product language such as `accounts`, `authentications`, `users`,
   `notifications`, `articles`, `blog`, `tasks`, `webhooks`, or `chat`.
 - Do not invent architecture-label apps such as `identity`, `work`, `operations`, `data`,
   `management`, or `collaboration` unless that exact term is intentional in the PRD. Never use
@@ -103,7 +103,7 @@ Naming and growth rules:
 - Use plural resource names for resource-owning apps and established singular capability names
   where conventional. Record each app's requirement IDs and one-sentence responsibility.
 - Name serializer and view modules after the resource or use case: `serializers/users.py`,
-  `serializers/authentication.py`, `views/users.py`. Express direction in class names such as
+  `serializers/authentications.py`, `views/users.py`. Express direction in class names such as
   `UserCreateSerializer` and `UserDetailSerializer`; generic `input.py` and `output.py` are forbidden.
 - Keep each module cohesive and at most 300 lines. Split services, selectors, permissions, tasks,
   consumers, models, and tests by resource/use case before they become catch-all files.
