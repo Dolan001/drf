@@ -8,3 +8,5 @@ for new targets keep `core`, `manage.py`, and root-level domain ownership. Decid
 user model before migrations. Design PostgreSQL constraints/indexes from invariants and
 query shapes, and version resource URLs below `/api/v1/`. Emit decisions and contracts,
 not application code.
+Emit a PRD-to-domain map with requirement IDs, familiar app names, responsibilities, API resources,
+and planned serializer/view modules; reject vague inferred domains.

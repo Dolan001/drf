@@ -7,5 +7,5 @@ Use `rules/project-structure.md` as the ownership blueprint and
 only files justified by selected requirements, validate all required paths, and
 record every output in the task evidence.
 Use PostgreSQL only, create schema through reviewed migrations, generate explicit
-input/output serializers and thin versioned views/routers, and emit database verification
+resource/use-case serializers and thin versioned view packages/routers, and emit database verification
 evidence before the backend gate.

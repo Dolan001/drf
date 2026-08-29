@@ -12,6 +12,8 @@ PostgreSQL and connection health, decide the user model, configure logging/error
 and create only required domain apps. Create tables only through reviewed committed
 migrations. Add Docker and CI inside the target only. Run structure, connection, migration,
 source-policy, and Django checks before feature implementation.
+First emit the PRD-to-domain map. Use explicit PRD nouns or justified familiar capability names,
+then scaffold resource/use-case serializer and view packages—never generic direction files.
 
 Use a currently supported minimal Python base image, pin the verified runtime image by
 digest, run as a non-root user, and keep build and runtime stages separate. Re-resolve

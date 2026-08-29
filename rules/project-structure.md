@@ -42,7 +42,18 @@ apps/backend/
 │   ├── __init__.py
 │   ├── apps.py
 │   ├── models.py
-│   ├── services.py
+│   ├── services.py                  # split to services/<use_case>.py before it grows
+│   ├── selectors.py                 # conditional optimized reads
+│   ├── serializers/                # conditional REST API boundary
+│   │   ├── __init__.py
+│   │   ├── users.py                # illustrative resource name, never input.py/output.py
+│   │   └── authentication.py       # illustrative use-case name
+│   ├── views/                      # conditional thin HTTP endpoints
+│   │   ├── __init__.py
+│   │   ├── users.py
+│   │   └── authentication.py
+│   ├── permissions.py              # conditional REST API authorization
+│   ├── urls.py                     # conditional domain router
 │   ├── tasks.py                    # conditional: scalar-ID task entrypoints
 │   ├── outbox.py                   # conditional: transactional delivery records
 │   ├── migrations/
@@ -80,6 +91,23 @@ Ownership:
 - domain routers have explicit basenames and mount under the versioned root `/api/v1/`.
 - OpenAPI is generated from the backend and checked against the canonical contract.
 
+Naming and growth rules:
+
+- Build a module map from PRD entities, capabilities, journeys, and API nouns before creating
+  apps. Preserve a clear PRD term when it is a real bounded context. Otherwise translate the
+  capability to familiar product language such as `accounts`, `authentication`, `users`,
+  `notifications`, `articles`, `blog`, `tasks`, `webhooks`, or `chat`.
+- Do not invent architecture-label apps such as `identity`, `work`, `operations`, `data`,
+  `management`, or `collaboration` unless that exact term is intentional in the PRD. Never use
+  `sample`, `misc`, `utils`, or `app` as a business domain.
+- Use plural resource names for resource-owning apps and established singular capability names
+  where conventional. Record each app's requirement IDs and one-sentence responsibility.
+- Name serializer and view modules after the resource or use case: `serializers/users.py`,
+  `serializers/authentication.py`, `views/users.py`. Express direction in class names such as
+  `UserCreateSerializer` and `UserDetailSerializer`; generic `input.py` and `output.py` are forbidden.
+- Keep each module cohesive and at most 300 lines. Split services, selectors, permissions, tasks,
+  consumers, models, and tests by resource/use case before they become catch-all files.
+
 Required and conditional paths:
 
 - Resolve exactly one lock strategy: `uv.lock`, `poetry.lock`, `pdm.lock`, or the pair
@@ -87,8 +115,8 @@ Required and conditional paths:
 - Every domain requires only its app configuration, models, services, migrations, and focused
   model/service tests.
 - Adding `selectors.py` activates the optimized-read group and requires selector/query tests.
-- Adding serializers, views, or URLs activates the REST API group and requires explicit input/
-  output serializers, views, URLs, permissions, and serializer/API tests.
+- Adding serializers, views, or URLs activates the REST API group and requires responsibility-named
+  serializer and view packages, URLs, permissions, and serializer/API tests.
 - Adding any domain `tasks.py` activates the background-task group. It requires Celery with the
   Redis extra, a Redis broker URL, Django task autodiscovery, a worker health check, Redis and
   worker services in `compose.yaml`, and task tests. Add Celery Beat only for requirement-backed
@@ -106,7 +134,7 @@ Generation order:
 2. Create configuration, PostgreSQL environment validation, connection/readiness,
    logging, and dependency locks.
 3. Decide the custom user model before the first migration.
-4. Create only domains and conditional capability groups required by the feature plan.
+4. Produce the PRD-to-domain module map, then create only those domains and conditional groups.
 5. Implement one vertical slice from constrained/indexed model through service,
    optimized selector, explicit serializers, thin view, named URL, and API tests.
 6. For durable deferred effects, persist an outbox/job in the business transaction, then add

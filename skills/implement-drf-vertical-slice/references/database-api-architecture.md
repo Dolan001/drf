@@ -70,7 +70,9 @@ filter, permission, or URL change.
 
 ## Serializers, views, and URLs
 
-- Separate write/input serializers from read/output serializers when field policy differs.
+- Separate write and read serializer classes when field policy differs, but colocate them in a
+  resource/use-case module such as `serializers/users.py`; never organize files as `input.py` and
+  `output.py`.
   Declare fields explicitly for public APIs; avoid `fields = "__all__"`. Validate shape and
   cross-field input and return validated data. The view/ViewSet calls a service for business writes.
 - Serialization is side-effect free. Never update rows in `SerializerMethodField`,

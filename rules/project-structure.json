@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.3.0",
   "framework": "django-drf",
   "target_root": "apps/backend",
   "required_paths": [
@@ -139,6 +139,19 @@
     }
   ],
   "domain_path_pattern": "<domain>",
+  "module_path_pattern": "<module>",
+  "module_naming": {
+    "style": "snake_case",
+    "ambiguous_names": ["identity", "work", "operations", "data", "management", "collaboration"],
+    "familiar_fallback_names": ["accounts", "authentication", "users", "notifications", "articles", "blog", "posts", "tasks", "todos", "webhooks", "chat", "files", "attachments", "payments", "orders", "products", "reports"],
+    "responsibility_packages": [
+      {"path": "serializers", "trigger_paths": ["serializers"], "minimum_modules": 1, "forbidden_module_names": ["input.py", "output.py", "serializers.py"], "extensions": [".py"]},
+      {"path": "views", "trigger_paths": ["views", "urls.py", "serializers"], "minimum_modules": 1, "forbidden_module_names": ["views.py"], "extensions": [".py"]}
+    ],
+    "max_lines": [
+      {"globs": ["models.py", "services.py", "selectors.py", "permissions.py", "tasks.py", "consumers.py", "serializers/*.py", "views/*.py"], "maximum": 300}
+    ]
+  },
   "required_domain_paths": [
     "__init__.py",
     "apps.py",
@@ -159,19 +172,18 @@
     },
     {
       "name": "rest-api",
-      "trigger_paths": ["views.py", "urls.py", "serializers"],
+      "trigger_paths": ["views", "urls.py", "serializers"],
       "required_paths": [
         "serializers",
         "serializers/__init__.py",
-        "serializers/input.py",
-        "serializers/output.py",
-        "views.py",
+        "views",
+        "views/__init__.py",
         "urls.py",
         "permissions.py",
         "tests/test_serializers.py",
         "tests/test_api.py"
       ],
-      "required_directories": ["serializers"]
+      "required_directories": ["serializers", "views"]
     },
     {
       "name": "background-tasks",
@@ -210,7 +222,7 @@
         "common/**/*.py",
         "*/models.py",
         "*/services.py",
-        "*/views.py",
+        "*/views/*.py",
         "*/serializers/*.py"
       ],
       "pattern": "(?:schema_editor\\.(?:create_model|delete_model|execute)|CREATE\\s+TABLE|ALTER\\s+TABLE|DROP\\s+TABLE)",
@@ -220,7 +232,7 @@
     },
     {
       "id": "views-do-not-persist-directly",
-      "globs": ["*/views.py"],
+      "globs": ["*/views/*.py"],
       "pattern": "(?:transaction\\.atomic|\\.objects\\.|\\.(?:save|delete|bulk_create|bulk_update)\\s*\\()",
       "ignore_case": false,
       "message": "DRF views orchestrate HTTP and must delegate database writes to services."

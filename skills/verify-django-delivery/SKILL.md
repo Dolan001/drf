@@ -9,6 +9,8 @@ Reconstruct requirements, inspect the diff, validate generated structure, and ru
 format, lint, types, `manage.py check`, migration drift/plan, affected units and APIs,
 OpenAPI drift, authorization negatives, and security checks. Capture commands and
 results. Do not edit source or mark verified with missing evidence.
+Independently validate domain names against the PRD/fallback policy, serializer and view package
+filenames, cohesive ownership, and the 300-line split limit.
 
 Reuse a passing shared full-matrix report only when its revision and workspace inputs
 still match. For an individual feature, run only focused changed-slice checks; never

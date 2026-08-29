@@ -12,3 +12,7 @@
 - Derive constraints and indexes from invariants and measured query shapes; do not add
   speculative indexes or perform database writes during serialization.
 - Pass the executable source rules and complete every activated domain capability group.
+- Resolve domain names from PRD product nouns first. If the PRD describes a capability without
+  naming it, use familiar capability vocabulary; never substitute vague architecture labels.
+- Use resource/use-case serializer and view packages, never `input.py`, `output.py`, or one growing
+  `views.py`. Keep cohesive source modules at or below the contract's 300-line split threshold.
