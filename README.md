@@ -1,6 +1,6 @@
 # Django REST Framework agent pack
 
-Code-free instructions used by `agent` to create or adopt a Django REST
+Code-free instructions used by `agents` to create or adopt a Django REST
 Framework backend inside a target monorepo.
 Generated backends use PostgreSQL, migration-owned schema, service/selector boundaries,
 explicit serializers, thin views, versioned URLs, and measured query checks.
