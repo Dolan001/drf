@@ -17,15 +17,18 @@ filter, permission, or URL change.
 
 ### Stable verification runtime
 
+- Use Docker Compose as the sole PostgreSQL runtime. Never inspect, install, start, or use a host
+  PostgreSQL service. Pull the reviewed version-pinned image when it is missing.
 - Use one uniquely named Compose project for the entire backend verification attempt. Start its
   PostgreSQL service once, wait on the Compose health condition, and reuse it until every database
   and HTTP check has finished.
 - Do not publish PostgreSQL to host port 5432 and do not allocate a sequence of random or fixed host
   forwarding ports. Backend, migration, seed, and test processes connect to `postgres:5432` (or the
   declared service name) on the Compose network.
-- Create separate disposable databases inside that one PostgreSQL service for empty-to-head and
-  prior-schema upgrade checks. Drop those databases and seeded records during cleanup; do not restart
-  the service between checks.
+- Create separate, normalized databases inside that one PostgreSQL service for empty-to-head and
+  prior-schema upgrade checks. Derive names from the project and purpose, add a short run identifier
+  when concurrent runs are possible, and keep them within PostgreSQL's 63-byte identifier limit.
+  Drop those databases and seeded records during cleanup; do not restart the service between checks.
 - Build and run the backend service on the same network. Exercise live HTTP from a project-owned
   Python test runner or test container using the backend service URL. Do not require `curl`, and do
   not count Django's in-process test client as live HTTP evidence.

@@ -121,6 +121,8 @@ Required and conditional paths:
   Redis extra, a Redis broker URL, Django task autodiscovery, a worker health check, Redis and
   worker services in `compose.yaml`, and task tests. Add Celery Beat only for requirement-backed
   schedules; add a result backend only when application behavior consumes task results.
+- Run Redis only as a version-pinned Compose service. Run Celery worker and Beat as separate Compose
+  services built from the same locked backend image. Never install or use host Redis or global Celery.
 - Adding a consumer/router activates realtime. Require Django Channels, `channels-redis`, Redis-only
   production channel layers, ASGI routing, versioned events, domain auth/fan-out tests, a realtime
   health check, and live Redis evidence. Never fall back to an in-memory layer in production.
