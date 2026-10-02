@@ -26,3 +26,8 @@ For database or API work, also apply
 `../implement-drf-vertical-slice/references/database-api-architecture.md` and require
 truthful `.ai/evidence/database-verification.json` evidence from a disposable PostgreSQL
 database.
+Run the built service against that database, load a versioned deterministic synthetic dataset, and
+test the API over live HTTP. Cover success, validation failure, authentication, authorization, and
+a write/read persistence round-trip. Remove the test data afterward. Record `seed-data` and
+`api-live` checks plus the `test_data` and live API results in
+`.ai/evidence/backend-verification.json`; production or private data is forbidden.
