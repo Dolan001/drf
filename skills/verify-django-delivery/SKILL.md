@@ -31,3 +31,7 @@ test the API over live HTTP. Cover success, validation failure, authentication, 
 a write/read persistence round-trip. Remove the test data afterward. Record `seed-data` and
 `api-live` checks plus the `test_data` and live API results in
 `.ai/evidence/backend-verification.json`; production or private data is forbidden.
+Perform the complete database and live HTTP matrix in one uniquely named Compose project. Keep
+PostgreSQL private to its network, connect by service name, and reuse the same healthy service for
+empty, prior-schema, seed, HTTP, persistence, and cleanup checks. Do not use changing host ports,
+ad hoc database containers, `curl` availability, or Django's in-process client as live evidence.

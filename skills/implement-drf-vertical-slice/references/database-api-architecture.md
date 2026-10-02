@@ -15,6 +15,23 @@ filter, permission, or URL change.
 - The root Compose contract supplies PostgreSQL with a health check and persistent volume;
   application startup waits for health and applies migrations as a distinct controlled job.
 
+### Stable verification runtime
+
+- Use one uniquely named Compose project for the entire backend verification attempt. Start its
+  PostgreSQL service once, wait on the Compose health condition, and reuse it until every database
+  and HTTP check has finished.
+- Do not publish PostgreSQL to host port 5432 and do not allocate a sequence of random or fixed host
+  forwarding ports. Backend, migration, seed, and test processes connect to `postgres:5432` (or the
+  declared service name) on the Compose network.
+- Create separate disposable databases inside that one PostgreSQL service for empty-to-head and
+  prior-schema upgrade checks. Drop those databases and seeded records during cleanup; do not restart
+  the service between checks.
+- Build and run the backend service on the same network. Exercise live HTTP from a project-owned
+  Python test runner or test container using the backend service URL. Do not require `curl`, and do
+  not count Django's in-process test client as live HTTP evidence.
+- If a command fails, capture service health and logs before teardown. Never retry by creating a new
+  ad hoc PostgreSQL container or changing the host port.
+
 ## Models and schema
 
 - Use a UUID or another requirements-backed public identifier; keep internal primary-key
